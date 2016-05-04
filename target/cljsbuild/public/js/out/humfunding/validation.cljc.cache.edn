@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 1.8.40
+{:name humfunding.validation, :doc nil, :excludes #{}, :use-macros nil, :require-macros {v bouncer.validators, bouncer.validators bouncer.validators}, :uses nil, :requires {b bouncer.core, bouncer.core bouncer.core, v bouncer.validators, bouncer.validators bouncer.validators}, :imports nil}

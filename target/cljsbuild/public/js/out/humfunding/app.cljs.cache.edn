@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 1.8.40
+{:name humfunding.app, :doc nil, :excludes #{}, :use-macros nil, :require-macros {figwheel figwheel.client, figwheel.client figwheel.client}, :uses nil, :requires {core humfunding.core, humfunding.core humfunding.core, figwheel figwheel.client, figwheel.client figwheel.client}, :imports nil, :cljs.analyzer/constants {:seen #{:on-jsload :websocket-url}, :order [:websocket-url :on-jsload]}}

@@ -1,0 +1,71 @@
+body {
+  background-color: #F9FCFE;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+div.navbar, nav.navbar {
+  background-image: none;
+  background-color: #002255;
+  background: linear-gradient(#002255, #114477);
+  color: #F9FCFE;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+  background-image: none;
+  background-color: #002255;
+  background: linear-gradient(#002255, #114477);
+  color: #F9FCFE;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover {
+  background-image: none;
+  background-color: #002255;
+  background: linear-gradient(#002255, #114477);
+  color: #F9FCFE;
+}
+
+.jumbotron {
+  background-color: #002255;
+  background: linear-gradient(#114477, #336699);
+  color: #F9FCFE;
+}
+
+div.doc {
+  display: inline-block;
+  margin: 3px;
+}
+
+div.funding-type {
+  text-align: center;
+}
+
+div.funding-type a.btn {
+  display: block;
+  width: 20%;
+  margin: 0.5em auto;
+}
+
+div.table {
+  display: table;
+  margin: 10px;
+}
+
+div.table div.row {
+  display: table-row;
+}
+
+div.table div.headers {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+div.table div.headers a {
+  cursor: pointer;
+}
+
+div.table div.cell {
+  display: table-cell;
+  padding: 10px;
+  width: 19%;
+}

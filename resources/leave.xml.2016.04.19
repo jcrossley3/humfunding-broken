@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.1" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" 
+                xmlns:is-date="http://www.intelligentstreaming.com/xsl/date-time">
+  <xsl:import href="DateTime.xsl"/>
+
+  <xsl:template match="/">
+    <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-family="'Times New Roman',serif" font-size="9pt" line-height="11pt">
+      <fo:layout-master-set>
+        <fo:simple-page-master master-name="only" page-height="66pc"
+                               page-width="51pc"
+                               margin-top="2pc"
+                               margin-bottom="2pc"
+                               margin-left="2.5pc"
+                               margin-right="0pc">
+          <fo:region-body/>
+        </fo:simple-page-master>
+      </fo:layout-master-set>
+      
+      <fo:page-sequence master-reference="only">
+        <fo:flow flow-name="xsl-region-body">
+          <xsl:apply-templates/>
+        </fo:flow>
+      </fo:page-sequence>
+    </fo:root>
+  </xsl:template>
+
+  <xsl:template match="fundingRequest">
+    <xsl:variable name="requestDate">
+      <xsl:value-of select="is-date:iso-from-unix(@requestDate)"/>
+    </xsl:variable>
+    <fo:block font-weight="bold" line-height="12pt" font-size="10pt" space-before="3pt" text-align="center">LEAVE OF ABSENCE APPLICATION</fo:block>
+    <fo:block font-weight="bold" line-height="12pt" font-size="10pt" space-after="12pt" text-align="center">BRIGHAM YOUNG UNIVERSITY</fo:block>
+    <fo:table border="0.5pt solid black" width="46pc" table-layout="fixed">
+      <fo:table-column column-width="23pc" column-number="1"></fo:table-column>
+      <fo:table-column column-width="23pc" column-number="2"></fo:table-column>
+      <fo:table-body start-indent="0.5pc" text-align="start">
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+              Name of Applicant: <fo:inline font-weight="bold"><xsl:value-of select="requestor/givenName"/><xsl:text> </xsl:text><xsl:value-of select="requestor/surname"/></fo:inline>
+            </fo:block>
+            <fo:block>
+              Employ ID: <fo:inline font-weight="bold"><xsl:value-of select="requestor/@byuid"/></fo:inline>
+            </fo:block>
+            <fo:block>
+              Current Rank: <fo:inline font-weight="bold"><xsl:value-of select="requestor/@rank"/></fo:inline>
+            </fo:block>
+            <fo:block>
+              Department: <fo:inline font-weight="bold"><xsl:value-of select="requestor/department"/></fo:inline>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>Date: <fo:inline font-weight="bold">
+            <xsl:value-of select="substring-before(is-date:iso-from-unix(@requestDate),'T')"/>
+          </fo:inline>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              Continuing Faculty Status: 
+              Yes<xsl:text> </xsl:text>
+              <xsl:choose>
+                <xsl:when test="requestor/@cfs='Yes'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>
+              No<xsl:text> </xsl:text>
+              <xsl:choose>
+                <xsl:when test="not(requestor/@cfs='Yes')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </fo:block>
+            <fo:block>College: <fo:inline font-weight="bold">Humanities</fo:inline></fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt" number-columns-spanned="2">
+            <fo:block><fo:inline font-weight="bold">Previous leave:</fo:inline>
+            <xsl:choose>
+              <xsl:when test="project/leaveDetails/@lastleave=''">
+                <xsl:call-template name="checkedBox"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="unCheckedBox"/>
+              </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text> </xsl:text>
+            None
+            </fo:block>
+            <fo:block margin-left="3pc">
+              Dates of <fo:inline font-weight="bold" text-decoration="underline" font-size="9pt">previous</fo:inline> leave: <xsl:if test="not(project/leaveDetails/@lastleave='')">from <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="project/leaveDetails/@lastleave"/></fo:inline> to
+              <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="project/leaveDetails/@lastleaveend"/></fo:inline></xsl:if>
+            </fo:block>
+            <fo:block margin-left="3pc">Type of <fo:inline font-weight="bold" text-decoration="underline" font-size="9pt">previous</fo:inline> leave:
+            <xsl:choose>
+              <xsl:when test="project/leaveDetails/@lastleavetype='professional'">
+                <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+              </xsl:when>
+              <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+            </xsl:otherwise></xsl:choose>
+            Professional
+            </fo:block>
+            <fo:block margin-left="10.5pc">
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@lastleavetype='personal'">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+              </xsl:otherwise></xsl:choose>
+              Personal
+            </fo:block>
+            <fo:block margin-left="10.5pc">
+              <xsl:choose>
+                <xsl:when test="not(project/leaveDetails/@lastleavetype='personal') and not(project/leaveDetails/@lastleavetype='professional')">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>Other: <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="project/leaveDetails/@lastleavetype"/></fo:inline>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>Other:
+              </xsl:otherwise></xsl:choose>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>Type of leave requested:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@type='professional'">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+              </xsl:otherwise></xsl:choose>
+              Professional Development Leave <fo:inline font-size="6pt" vertical-align="super">1,2</fo:inline>
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@type='personal'">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+              </xsl:otherwise></xsl:choose>
+              Personal Leave (Limited benefits available) <fo:inline font-size="6pt" vertical-align="super">2</fo:inline>
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@type='mission'">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+              </xsl:otherwise></xsl:choose>
+              Mission President / Temple Presidency <fo:inline font-size="6pt" vertical-align="super">3</fo:inline>
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@type='military'">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>
+              </xsl:otherwise></xsl:choose>
+              Military Service <fo:inline font-size="6pt" vertical-align="super">3</fo:inline>
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(project/leaveDetails/@type='professional') and not(project/leaveDetails/@type='personal') and not(project/leaveDetails/@type='mission') and not(project/leaveDetails/@type='military')">
+                  <xsl:call-template name="checkedBox"/><xsl:text> </xsl:text>Other <fo:inline font-size="6pt" vertical-align="super">3</fo:inline>: <fo:inline font-size="9pt" font-weight="bold"><xsl:value-of 
+                  select="project/leaveDetails/@type"/></fo:inline>
+                </xsl:when>
+                <xsl:otherwise><xsl:call-template name="unCheckedBox"/><xsl:text> </xsl:text>Other <fo:inline font-size="6pt" vertical-align="super">3</fo:inline>:
+              </xsl:otherwise></xsl:choose>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="project/leaveDetails/@time='full-time'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Full-Time
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(project/leaveDetails/@time='full-time')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Part-Time - indicate fraction of time:
+              <xsl:if test="not(project/leaveDetails/@time='full-time')">
+                <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="project/leaveDetails/@time"/></fo:inline>
+              </xsl:if>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              Length of Leave: from <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of 
+              select="substring-before(is-date:iso-from-unix(project/startDate/@value),'T')"/></fo:inline> 
+              to <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of 
+              select="substring-before(is-date:iso-from-unix(project/endDate/@value),'T')"/></fo:inline> 
+            </fo:block>
+          </fo:table-cell>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>&#160;</fo:block>
+            <fo:block><fo:inline font-size="6pt" vertical-align="super">1</fo:inline> If a professional development leave is granted, the faculty member agrees to remain under contract for full services with 
+            Brigham Young University for at least one year immediately following 
+            the leave. If the faculty member fails to fulfill this provision, he or she must reimburse the University for gross pay received plus the BYU matching amount for social security and premiums paid by the 
+            University for the group insurance program during the leave. Repayment will be in accordance with an agreement to be made with the University. Deferred payments will bear interest at the rate of eight 
+            percent beginning with the date the leave terminates.
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block><fo:inline font-size="6pt" vertical-align="super">2</fo:inline> Requires President's approval</fo:block>
+            <fo:block><fo:inline font-size="6pt" vertical-align="super">3</fo:inline> May not require President's approval</fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt" number-columns-spanned="2">
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              Desired financial support from the university to applicant for professional leave (do not include salary for regular assignment):
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(budget/requestedBudget/salary/@amt='')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Salary for Period of Leave (Insert Fraction or Dollar Amount):
+              <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="budget/requestedBudget/salary/@amt"/></fo:inline>
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="budget/requestedBudget/salary='none'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>None
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="budget/requestedBudget/salary='fringe'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Fringe Benefits Only
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(budget/requestedBudget/wages/@amt='$0.00') or not(budget/requestedBudget/supplies/@amt='$0.00') or 
+                                not(budget/requestedBudget/travel/@amt='$0.00') or not(budget/requestedBudget/other/@amt='$0.00')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Other support (attach itemized list)
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              Briefly describe your leave proposal:<xsl:text> </xsl:text>
+              <fo:inline font-weight="bold" font-size="9pt"><xsl:value-of select="project/description"/></fo:inline>
+            </fo:block>
+            <fo:block>
+              I will check with the University Benefits Office before and after my leave to assure proper continuation or termination of insurance coverage and 
+              any other programs in which I am enrolled.
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+              Signed: <fo:inline font-weight="bold" text-decoration="underline" font-size="9pt"><xsl:value-of 
+              select="requestor/givenName"/><xsl:text> 
+              </xsl:text><xsl:value-of select="requestor/surname"/> (Electronic Signature)</fo:inline>
+              <xsl:text>  </xsl:text>Date: <fo:inline font-weight="bold" font-size="9pt" text-decoration="underline"><xsl:value-of 
+              select="substring-before(is-date:iso-from-unix(@requestDate),'T')"/></fo:inline>
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+              Recommendation by
+            </fo:block>
+            <fo:block font-weight="bold">Department Committee</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="approval/committeeResponse and not(approval/committeeResponse/@status='yes') and not(approval/committeeResponse/@status='partial')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Deny Leave
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="(approval/committeeResponse/@status='yes')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave as requested
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="approval/committeeResponse/@status='partial'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave with modifications listed below:
+            </fo:block>
+            <xsl:if test="approval/committeeResponse/@status='partial'">
+              <fo:block font-weight="bold"><xsl:value-of select="approval/committeeResponse"/></fo:block>
+            </xsl:if>
+            <fo:block font-weight="bold" text-decoration="underline">
+	      <xsl:if test="approval/committeeResponse">
+                <xsl:value-of select="approval/committeeResponse/@resp"/> (Electronic Signature)
+                <xsl:value-of select="substring-before(is-date:iso-from-unix(approval/committeeResponse/@responseDate),'T')"/>
+	      </xsl:if>
+            </fo:block>
+          </fo:table-cell>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+              Recommendation by
+            </fo:block>
+            <fo:block font-weight="bold">Department Chair</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="approval/chairResponse and not(approval/chairResponse/@status='yes') and not(approval/chairResponse/@status='partial')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Deny Leave
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="(approval/chairResponse/@status='yes')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave as requested
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="approval/chairResponse/@status='partial'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave with modifications listed below:
+              <xsl:if test="approval/chairResponse/@status='partial'">
+                <fo:block font-weight="bold"><xsl:value-of select="approval/chairResponse"/></fo:block>
+              </xsl:if>
+              <fo:block font-weight="bold" text-decoration="underline">
+                <xsl:choose>
+                  <xsl:when test="approval/chairResponse and not(approval/chairResponse/@status='none')">
+                  <xsl:value-of select="approval/chairResponse/@resp"/> (Electronic Signature)
+                  <xsl:value-of select="substring-before(is-date:iso-from-unix(approval/chairResponse/@responseDate),'T')"/>
+                  </xsl:when>
+                </xsl:choose>
+              </fo:block>
+            </fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+              Recommendation by
+            </fo:block>
+            <fo:block font-weight="bold">College Committee</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(approval/colCommitteeResponse/@status='yes') and not(approval/colCommitteeResponse/@status='partial')">
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Deny Leave
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="(approval/colCommitteeResponse/@status='yes')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave as requested
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="approval/colCommitteeResponse/@status='partial'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave with modifications listed below:
+            </fo:block>
+            <xsl:if test="approval/colCommitteeResponse/@status='partial'">
+              <fo:block font-weight="bold"><xsl:value-of select="approval/committeeResponse"/></fo:block>
+            </xsl:if>
+          </fo:table-cell>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+              Recommendation by
+            </fo:block>
+            <fo:block font-weight="bold">Dean</fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(approval/deaneryResponse/@status='yes') and not(approval/deaneryResponse/@status='partial')">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Deny Leave
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="(approval/deaneryResponse/@status='yes') and not(approval/deaneryResponse/@mods='true') and budget/awardedBudget/@total=budget/requestedBudget/@total">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave as requested
+            </fo:block>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="not(budget/awardedBudget/@total=budget/requestedBudget/@total) or approval/deaneryResponse/@mods='true'">
+                  <xsl:call-template name="checkedBox"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="unCheckedBox"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>Grant leave with modifications listed below:
+            </fo:block>
+            <xsl:if test="not(budget/awardedBudget/@total=budget/requestedBudget/@total)">
+              <fo:block font-weight="bold">Changes to proposed budget line items:
+              <xsl:if test="not(budget/awardedBudget/wages/@amt=budget/requestedBudget/wages/@amt)"> wages -- <xsl:value-of 
+              select="budget/awardedBudget/wages/@amt"/>;
+              </xsl:if>
+              <xsl:if test="not(budget/awardedBudget/supplies/@amt=budget/requestedBudget/supplies/@amt)"> supplies -- <xsl:value-of 
+              select="budget/awardedBudget/supplies/@amt"/>;
+              </xsl:if>
+              <xsl:if test="not(budget/awardedBudget/travel/@amt=budget/requestedBudget/travel/@amt)"> travel -- <xsl:value-of 
+              select="budget/awardedBudget/travel/@amt"/>;
+              </xsl:if>
+              <xsl:if test="not(budget/awardedBudget/other/@amt=budget/requestedBudget/other/@amt)"> other funds -- <xsl:value-of 
+              select="budget/awardedBudget/other/@amt"/>
+              </xsl:if>
+              </fo:block>
+            </xsl:if>
+            <xsl:if test="approval/deaneryResponse/@mods='true' or approval/deaneryResponse">
+              <fo:block font-weight="bold"><xsl:value-of select="approval/deaneryResponse[position()=last()]"/></fo:block>
+            </xsl:if>
+            <fo:block font-weight="bold" text-decoration="underline">
+            </fo:block>
+            <fo:block font-weight="bold" text-decoration="underline"><xsl:value-of select="approval/deaneryResponse/@resp"/> 
+            (Electronic Signature)
+            <xsl:value-of 
+                select="substring-before(is-date:iso-from-unix(approval/deaneryResponse/@responseDate),'T')"/>
+            </fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+            If a foreign leave, APPROVED BY INTERNATIONAL VICE PRESIDENT:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block><fo:inline 
+                          text-decoration="underline">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</fo:inline> <xsl:text>&#160;&#160;&#160;</xsl:text>Date:
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+            APPROVED BY ASSOCIATE ACADEMIC VICE PRESIDENT-FACULTY:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block><fo:inline 
+                          text-decoration="underline">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</fo:inline> <xsl:text>&#160;&#160;&#160;</xsl:text>Date:
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+          <fo:table-cell border-style="solid" border-width="0.5pt">
+            <fo:block>
+            APPROVED BY PRESIDENT:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block><fo:inline 
+                          text-decoration="underline">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</fo:inline> <xsl:text>&#160;&#160;&#160;</xsl:text>Date:
+            </fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>&#160;</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+          <fo:table-cell border-style="solid" border-width="0.5pt" number-columns-spanned="2">
+            <fo:block>&#160;</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block font-weight="bold" text-align="center">Instructions to Faculty Member:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>
+            Attach separate sheets to give the supplementary information requested below:</fo:block>
+            <fo:block>
+              - Provide additional information concerning the proposed program.  Indicate specifically how it will relate to and 
+              improve your role as a faculty member at BYU.  Indicate also if experience gained during the leave will serve as a 
+            basis for the development of new instructional or research programs at BYU.</fo:block>
+            <fo:block>
+              - List the criteria which you feel should be used to evaluate the success of the leave program.
+            </fo:block>
+            <fo:block>
+            - Indicate sources of other funding (in addition to that requested from the University) that will be available to you during the leave.</fo:block>
+            <fo:block>
+            - Delineate other items or considerations which you feel are relevant to your proposed leave program.</fo:block>
+            <fo:block>
+            - See Benefits Services (D-240 ASB) regarding limitations on benefits.</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block font-weight="bold" text-align="center">Instructions to Department and College Committees:</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>Attach any expanded comments which have bearing on your recommendations concerning this leave application. If the faculty member does not have continuing faculty status, indicate why the 
+            proposed leave is the best use of resources (time and money) at this stage of the academic career.</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>&#160;</fo:block>
+            <fo:block>Following final approval, copies will be made in the AAVP Office and appropriate copies returned to the college for distribution (white-applicant;  canary-Dean;  
+            pink-Department Chair). The AAVP Office will keep the goldenrod copy and deliver the green copy to Benefits Services.</fo:block>
+            <fo:block>[AAVP Office &#8211; 12 Oct 2011]</fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+      </fo:table-body>
+    </fo:table>
+
+    <fo:block break-before="page">
+    Itemized Budget for Additional Financial Support</fo:block>
+
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="12pt" space-before="0pt" 
+              margin-left="3pc" 
+              margin-right="3pc" text-align="left">Total amount of additional support requested: 
+    <fo:inline font-weight="bold">$<xsl:value-of 
+    select="number(translate(budget/requestedBudget/@total,'$,',''))"/></fo:inline></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="0pt" space-before="0pt" 
+              margin-left="5pc" 
+              margin-right="3pc" text-align="left">Amount of support for wages: 
+    <fo:inline font-weight="bold"><xsl:value-of select="budget/requestedBudget/wages/@amt"/></fo:inline></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="12pt" space-before="0pt" 
+              margin-left="7pc" 
+              margin-right="3pc" text-align="left"><xsl:value-of select="budget/requestedBudget/wages"/></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="0pt" space-before="0pt" 
+              margin-left="5pc" 
+              margin-right="3pc" text-align="left">Amount of support for supplies: 
+    <fo:inline font-weight="bold"><xsl:value-of select="budget/requestedBudget/supplies/@amt"/></fo:inline></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="12pt" space-before="0pt" 
+              margin-left="7pc" 
+              margin-right="3pc" text-align="left"><xsl:value-of select="budget/requestedBudget/supplies"/></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="0pt" space-before="0pt" 
+              margin-left="5pc" 
+              margin-right="3pc" text-align="left">Amount of support for travel: 
+    <fo:inline font-weight="bold"><xsl:value-of select="budget/requestedBudget/travel/@amt"/></fo:inline></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="12pt" space-before="0pt" 
+              margin-left="7pc" 
+              margin-right="3pc" text-align="left"><xsl:value-of select="budget/requestedBudget/travel"/></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="0pt" space-before="0pt" 
+              margin-left="5pc" 
+              margin-right="3pc" text-align="left">Amount of support for other expenditures: 
+    <fo:inline font-weight="bold"><xsl:value-of select="budget/requestedBudget/other/@amt"/></fo:inline></fo:block>
+    <fo:block line-height="13pt" font-family="'Times New Roman',serif" font-size="12pt" space-after="12pt" space-before="0pt" 
+              margin-left="7pc" 
+              margin-right="3pc" text-align="left"><xsl:value-of select="budget/requestedBudget/other"/></fo:block>
+  </xsl:template>
+
+  <xsl:template name="checkedBox">
+    <fo:inline font-family="sans-serif" font-size="8pt" font-weight="bold" text-align="center" border="0.5pt solid 
+                                                                                                       black">x</fo:inline>
+  </xsl:template>
+
+  
+  <xsl:template name="unCheckedBox">
+    <fo:inline font-family="serif" font-size="8pt" font-weight="normal" text-align="center" border="0.5pt solid 
+                                                                                                    black">&#160;&#160;</fo:inline>
+  </xsl:template>
+
+
+</xsl:stylesheet>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<fundingRequest>
+    <requestor>
+        <givenName></givenName>
+        <surname></surname>
+        <department></department>
+    </requestor>
+    <project>
+        <description></description>
+        <startDate/>
+        <endDate/>
+	<invitationSupport/>
+	<leaveDetails/>
+    </project>
+    
+    <approval>
+      <deaneryResponse>
+      </deaneryResponse>
+      <chairResponse>
+      </chairResponse>
+    </approval>
+    <budget>
+      <requestedBudget>
+        <supplies />
+        <travel></travel>
+        <salary/>
+        <other/>
+        <wages/>
+      </requestedBudget>
+      <requestedBudgetBreakdown>
+        <yearlyBreakdown>
+          <wages/>
+          <supplies/>
+          <travel/>
+          <other/>
+        </yearlyBreakdown>
+      </requestedBudgetBreakdown>
+      <awardedBudget>
+        <travel/>
+        <other/>
+        <salary/>
+      </awardedBudget>
+      <externalFunds/>
+    </budget>
+</fundingRequest>
