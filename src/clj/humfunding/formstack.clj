@@ -6,7 +6,8 @@
             [humfunding.fop :as fop]
             [clojure.string :refer [lower-case]]
             [clj-time.core :as t]
-            [clj-time.format :as f])
+            [clj-time.format :as f]
+            [clojure.java.io :as io])
   (:import [java.io StringReader]))
 
 (def ^:dynamic *oauth1* "f3b5ec559ff83e6de0ef7812d7c1b5f9") ;; expires regularly
@@ -105,16 +106,21 @@
         fields (get form "fields")]
     (into {} (for [field fields] [(get field "id") (get field "label")]))))
 
-(defn get-submission-vals [submission-id form-id]
-  (let [fmap (field-map form-id)
-        submission (get-submission submission-id)
-        data (get submission "data")
-        init-data {"request date" (get submission "timestamp")}]
-    (into init-data (for [d data] (let [target-key (-> d (get "field"))
-                                 field (-> fmap (get target-key) clojure.string/lower-case)]
-                             [field (get d "value")])))))
+(defn get-submission-vals
+  ([submission-id]
+   (let [submission (get-submission submission-id)
+         form-id (get submission "form")]
+     (get-submission-vals submission form-id)))
+  ([submission form-id]
+   (let [fmap (field-map form-id)
+         data (get submission "data")
+         init-data {"request date" (get submission "timestamp")
+                    "submission id" (get submission "id")}]
+     (into init-data (for [d data] (let [target-key (-> d (get "field"))
+                                         field (-> fmap (get target-key) clojure.string/lower-case)]
+                                     [field (get d "value")]))))))
 
-(defn make-xml-vals
+(defn make-submission-valmap
   "Make the key list for replacement in the XML template given a get-submission-vals"
   [values]
   (let [raw-map (into {} (for [[k v] values] [(get translation-map k) v]))
@@ -140,23 +146,37 @@
         lc-map (into {} (for [l lc-fields] [l (-> l raw-map lower-case)]))]
     (merge raw-map times-map names-map lc-map budget-map)))
 
-  (defn full-xml-out "Full process, going in with form and submission id, out to an xml file"
-    [form-id submission-id xml-out]
-    (let [;; form (get-form form-id)
-          ;; submission (get-submission submission-id)
-          val-map (-> (get-submission-vals submission-id form-id) make-xml-vals)
-          xml (xml/generate-xml val-map)]
-      (xml/output-xml xml xml-out)
-      xml-out))
+(defn full-xml-out "Full process, going in with form and submission id, out to an xml file"
+  [form-id submission-id xml-out]
+  (let [;; form (get-form form-id)
+        ;; submission (get-submission submission-id)
+        val-map (-> submission-id get-submission-vals make-submission-valmap)
+        xml (xml/generate-xml val-map)]
+    (xml/output-xml xml xml-out)
+    xml-out))
 
-  (defn full-xml "Full process, going in with form and submission id, out to an xml stream"
-    [form-id submission-id]
-    (let [;; form (get-form form-id)
-          ;; submission (get-submission submission-id)
-          val-map (-> (get-submission-vals submission-id form-id) make-xml-vals)]
-      (xml/generate-xml val-map)))
+(defn full-xml "Full process, going in with form and submission id, out to an xml stream"
+  [submission-id]
+  (let [;; form (get-form form-id)
+        ;; submission (get-submission submission-id)
+        ;; form-id (get submission "form")
+        val-map (-> submission-id get-submission-vals make-submission-valmap)]
+    (xml/generate-xml val-map)))
 
-  (defn all-out-pdf "Full process out to a pdf"
-    [form-id submission-id pdf-out-loc]
-    (let [xml (StringReader. (full-xml form-id submission-id))]
-      (fop/generate-leave-pdf-mem {:xml xml :pdf-file pdf-out-loc})))
+(defn all-out-pdf "Full process out to a pdf"
+  [submission-id pdf-out-loc]
+  (let [xml (StringReader. (full-xml submission-id))]
+    (fop/generate-leave-pdf-mem {:xml xml :pdf-file pdf-out-loc})))
+
+(defn serve-pdf
+  "Check whether pdf-id.pdf exists already;
+  if not, create. Then, return it. "
+  [submission-id]
+  (let [pdf-name (str submission-id ".pdf")
+        out-dir (-> "pdf-out" io/resource io/file)
+        pdf-file (-> (str (.getPath out-dir) (java.io.File/separator) pdf-name)
+                     io/file)]
+    (if-not (.exists pdf-file)      
+      (all-out-pdf submission-id (.getPath pdf-file)))
+    pdf-file ;; XX will this format work?
+    ))

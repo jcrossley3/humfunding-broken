@@ -10,7 +10,7 @@
         sub-ids (map #(get % "id")
                      (-> (fs/get-submissions form-id) (get "submissions")))
         requests (into [] (for [si sub-ids]
-                            (-> si (fs/get-submission-vals form-id) fs/make-xml-vals)))]
+                            (-> si fs/get-submission-vals fs/make-submission-valmap)))]
     (layout/render :dean-requests requests)))
 
 (defn leave-requests-raw [category]
@@ -20,7 +20,7 @@
         sub-ids (map #(get % "id")
                      (-> (fs/get-submissions form-id) (get "submissions")))
         requests (into [] (for [si sub-ids]
-                            (-> si (fs/get-submission-vals form-id) fs/make-xml-vals)))]
+                            (-> si fs/get-submission-vals fs/make-submission-valmap)))]
     ;; Return xml vals via transit
     (response/ok  requests))
   ;(response/ok "I'm just sending something.")
@@ -31,7 +31,12 @@
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (GET "/dean/leave" [] (leave-requests #"dean_leave"))
+  (GET "/leave/dean" [] (leave-requests #"dean_leave"))
+  (GET "/pdf/:sub-id" [sub-id] (-> (fs/serve-pdf sub-id)
+                                   response/ok
+                                   (response/header "Content-Disposition" (str "attachment; filename=\"" (str sub-id ".pdf") "\""))
+                                   (response/content-type "application/pdf")
+                                   )) ;; TODO invalid subids, and what format can be served
                                         ;(GET "/:dept/:request-type" [dept request-type] (get-submissions dept type)) ;; TODO
   (POST "/leave/:category" [category] (leave-requests-raw category))
   (GET "/docs" [] (response/ok (-> "docs/docs.md" io/resource slurp))))

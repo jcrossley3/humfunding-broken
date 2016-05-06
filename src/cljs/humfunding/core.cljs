@@ -8,7 +8,7 @@
             [humfunding.ajax :refer [load-interceptors!]]
             [ajax.core :refer [GET POST]]
             [humfunding.shared :refer [hum-link nav-link navbar]]
-            [humfunding.leave :refer [leave-page] :as leave])
+            [humfunding.leave :as leave])
   (:import goog.History))
 
 (defn home-page []
@@ -30,7 +30,7 @@
 
 (def pages
   {:home #'home-page
-   :leave #'leave-page})
+   :leave #'leave/leave-page})
 
 (defn page []
   [(pages (session/get :page))])

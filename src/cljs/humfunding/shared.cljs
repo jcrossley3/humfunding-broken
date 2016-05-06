@@ -33,3 +33,12 @@
   "The `sign in' link that triggers & populates the initial form"
   [app-type]
   [:a.btn.btn-primary.signin {:href "#"} "Sign In"])
+
+(defn busy-indicator 
+  "Make a css-animated busy indicator"
+  [num-circles]
+  (let [circle-class "f_circleG"]
+    (into [:div#floatingCirclesG]
+          (for [n (range num-circles)]
+            [:div {:class circle-class
+                   :id (str "frotateG_" n)}]))))

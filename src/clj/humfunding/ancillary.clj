@@ -18,6 +18,7 @@
                       "abstract" :project-description                         
                       "type of leave?" :leave-type
                       "byu net id" :netid
+                      "submission id" :submission-id
 
                       "other needs" :budget-other-amt                         
                       "percent of salary support" :budget-salary-amt
