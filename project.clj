@@ -48,7 +48,7 @@
 
   :jvm-opts ["-server" "-Dconf=.lein-env"]
   :source-paths ["src/clj" "src/cljc"]
-  :resource-paths ["resources" "target/cljsbuild"]
+  :resource-paths ["resources" "target/cljsbuild" "../output"]
 
   :main humfunding.core
 

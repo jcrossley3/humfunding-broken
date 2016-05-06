@@ -178,5 +178,4 @@
                      io/file)]
     (if-not (.exists pdf-file)      
       (all-out-pdf submission-id (.getPath pdf-file)))
-    pdf-file ;; XX will this format work?
-    ))
+    pdf-file))
