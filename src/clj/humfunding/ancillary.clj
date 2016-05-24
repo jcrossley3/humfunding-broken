@@ -7,6 +7,7 @@
                 "Linguistics and English Language" {:name "Norman Evans"}
                 "Spanish and Portuguese" {:name "David Phillip Laraway"
                                           :email "david_laraway@byu.edu"}
+                "Asian and Near Eastern Languages" {:name "Dana Bourgerie"}
                 })
 
 (defn get-chair [skey]
@@ -61,4 +62,6 @@
                 (map bigdec)
                 (reduce +)
                 str)]
-    (merge budget-map {:requested-total rt})))
+    (merge budget-map {:budget-requested rt
+                       :awarded-budget-total rt ; TODO shouldn't be assumed
+                       })))

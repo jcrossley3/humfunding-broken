@@ -148,19 +148,14 @@
 
 (defn full-xml-out "Full process, going in with form and submission id, out to an xml file"
   [form-id submission-id xml-out]
-  (let [;; form (get-form form-id)
-        ;; submission (get-submission submission-id)
-        val-map (-> submission-id get-submission-vals make-submission-valmap)
+  (let [val-map (-> submission-id get-submission-vals make-submission-valmap)
         xml (xml/generate-xml val-map)]
     (xml/output-xml xml xml-out)
     xml-out))
 
 (defn full-xml "Full process, going in with form and submission id, out to an xml stream"
   [submission-id]
-  (let [;; form (get-form form-id)
-        ;; submission (get-submission submission-id)
-        ;; form-id (get submission "form")
-        val-map (-> submission-id get-submission-vals make-submission-valmap)]
+  (let [val-map (-> submission-id get-submission-vals make-submission-valmap)]
     (xml/generate-xml val-map)))
 
 (defn all-out-pdf "Full process out to a pdf"

@@ -65,10 +65,10 @@
                                                    leave-last-leave-end ""
                                                    leave-last-leave-type ""
                                                    chair-status "yes"
-                                                   chair-response-date ""
+                                                   chair-response-date "2016-05-23" ; "" ;; TODO
                                                    chair-response-content ""
                                                    dean-status "yes"
-                                                   dean-response-date "" ;; TODO not available from Formstack API?
+                                                   dean-response-date "2016-05-23" ;"" ;; TODO not available from Formstack API?
                                                    dean-respondent _dean-respondent ;; TODO not available from Formstack API?
                                                    dean-response-content "" ;; TODO not available from Formstack API?
                                                    budget-requested "$0.00"
@@ -96,7 +96,8 @@
   [:fundingRequest :requestor :department] (en/set-attr "chair" chair-name
                                                         "chair_email" chair-email
                                                         "key" dept-key)
-  [:fundingRequest :requestor :department] (en/content dept-content)
+  [:fundingRequest :requestor :department] (en/content (or dept-content
+                                                           dept-key))
   [:fundingRequest :project] (en/set-attr "title" project-title
                                           "technology" project-tech?
                                           "paper_accepted" project-paper-accepted?
