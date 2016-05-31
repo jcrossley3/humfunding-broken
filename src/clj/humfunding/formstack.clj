@@ -28,9 +28,11 @@
   (let [input-formats {:short formstack-time-short
                        :long formstack-time-long}
         output-format (f/formatters output-format-key)]
-    (->> time-string
-         (f/parse (get input-formats input-format-key))
-         (f/unparse output-format))))
+    (if-not (empty? time-string)
+      (->> time-string
+           (f/parse (get input-formats input-format-key))
+           (f/unparse output-format))
+      "")))
 
 (defn get-token ;; XXX doesn't work yet with the oauth2 system; bypass with hardcoded token
   "Get the *oauth2* token"
@@ -165,12 +167,13 @@
 
 (defn serve-pdf
   "Check whether pdf-id.pdf exists already;
-  if not, create. Then, return it. "
-  [submission-id]
+  If not, create. Then, return it. "
+  [submission-id & force]
   (let [pdf-name (str submission-id ".pdf")
-        out-dir (-> "pdf-out" io/resource io/file)
+        out-dir (-> "leave" io/resource io/file) ;; TODO create this if not exists
         pdf-file (-> (str (.getPath out-dir) (java.io.File/separator) pdf-name)
                      io/file)]
-    (if-not (.exists pdf-file)      
+    (if (or (not (.exists pdf-file))
+            force)
       (all-out-pdf submission-id (.getPath pdf-file)))
     pdf-file))

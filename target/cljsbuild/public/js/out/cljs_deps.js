@@ -48,10 +48,10 @@ goog.addDependency("../reagent/impl/template.js", ['reagent.impl.template'], ['r
 goog.addDependency("../reagent/core.js", ['reagent.core'], ['reagent.impl.util', 'reagent.interop', 'reagent.ratom', 'cljs.core', 'cljsjs.react', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.debug']);
 goog.addDependency("../reagent/session.js", ['reagent.session'], ['reagent.core', 'cljs.core']);
 goog.addDependency("../humfunding/shared.js", ['humfunding.shared'], ['reagent.session', 'reagent.core', 'cljs.core']);
-goog.addDependency("../humfunding/leave.js", ['humfunding.leave'], ['ajax.core', 'reagent.session', 'reagent.core', 'cljs.core', 'humfunding.shared']);
-goog.addDependency("../humfunding/ajax.js", ['humfunding.ajax'], ['ajax.core', 'cljs.core']);
 goog.addDependency("../clojure/walk.js", ['clojure.walk'], ['cljs.core']);
 goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string', 'clojure.walk']);
+goog.addDependency("../humfunding/leave.js", ['humfunding.leave'], ['ajax.core', 'reagent.session', 'reagent.core', 'cljs.core', 'humfunding.shared', 'secretary.core']);
+goog.addDependency("../humfunding/ajax.js", ['humfunding.ajax'], ['ajax.core', 'cljs.core']);
 goog.addDependency("../humfunding/core.js", ['humfunding.core'], ['ajax.core', 'markdown.core', 'humfunding.leave', 'reagent.session', 'reagent.core', 'cljs.core', 'humfunding.shared', 'goog.history.EventType', 'humfunding.ajax', 'goog.History', 'secretary.core', 'goog.events']);
 goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.timers'], ['cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core', 'cljs.core.async.impl.protocols']);
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core', 'cljs.core.async.impl.buffers', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.timers']);

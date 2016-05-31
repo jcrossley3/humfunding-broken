@@ -11,21 +11,27 @@
             [humfunding.leave :as leave])
   (:import goog.History))
 
+;#(.log js/console (-> (.getElementById js/document "leave-selector") .-value))
+
 (defn home-page []
   [:div.container
    [:div.jumbotron
     [:h1 "BYU Humanities Funding Administration"]
     [:p "Welcome to the BYU Humanities College funding administration website. Here you can view the submissions for each category."]]
-   [:div.row
-    [:div.col-md-12.funding-type
-     "Right now only College Submissions are available."
-     [:div.button-holder
-      [:a.btn.btn-inactive {:href "#"} "College Research Requests"]]
-     [:div.button-holder
-      [:a.btn.btn-inactive {:href "#"} "College Travel Requests"]]
-     [:div.button-holder
-      [:a.btn.btn-primary {:href "#/leave/dean"} "College Leave Requests"]]
-     ]]
+   ;; [:div.row
+   ;;  [:div.col-md-12.funding-type
+   ;;   "Right now only College Submissions are available."
+   ;;   [:div.button-holder
+   ;;    [:a.btn.btn-inactive {:href "#"} "College Research Requests"]]
+   ;;   [:div.button-holder
+   ;;    [:a.btn.btn-inactive {:href "#"} "College Travel Requests"]]
+   ;;   [:div.button-holder
+   ;;    [:a.btn.btn-primary {:href "#/leave/dean"} "College Leave Requests"]]
+   ;;   ]]
+   [:div.row.requests.leave-requests
+    [:h3 "Leave Requests"]
+    (leave/leave-request-dropdown)
+    ]
    ])
 
 (def pages
@@ -44,7 +50,7 @@
 
 (secretary/defroute leave-route "/leave/:category" [category]
   (session/put! :category category)
-  (leave/get-requests category)
+  (leave/get-requests category :init)
   (session/put! :page :leave))
 
 ;; -------------------------

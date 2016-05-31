@@ -8,6 +8,7 @@
                 "Spanish and Portuguese" {:name "David Phillip Laraway"
                                           :email "david_laraway@byu.edu"}
                 "Asian and Near Eastern Languages" {:name "Dana Bourgerie"}
+                "Comparative Arts and Letters" {:name "Carl Sederholm"}
                 })
 
 (defn get-chair [skey]
@@ -65,3 +66,14 @@
     (merge budget-map {:budget-requested rt
                        :awarded-budget-total rt ; TODO shouldn't be assumed
                        })))
+
+(def all-depts
+  ["dean" 
+   "ane" 
+   "cal" 
+   "english" 
+   "frenital" 
+   "germruss" 
+   "linguistics" 
+   "philosophy" 
+   "spanport"])
