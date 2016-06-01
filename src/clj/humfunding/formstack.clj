@@ -7,14 +7,15 @@
             [clojure.string :refer [lower-case]]
             [clj-time.core :as t]
             [clj-time.format :as f]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [humfunding.config :refer [env]])
   (:import [java.io StringReader]))
 
-(def ^:dynamic *oauth1* "f3b5ec559ff83e6de0ef7812d7c1b5f9") ;; expires regularly
-(def ^:dynamic *access-token* "74641c25860f55dc930c9ba036e08bdb") ;; oauth2, almost stable
+;; (def ^:dynamic *oauth1* "f3b5ec559ff83e6de0ef7812d7c1b5f9") ;; expires regularly
+;; (def ^:dynamic *access-token* "74641c25860f55dc930c9ba036e08bdb") ;; oauth2, almost stable
 (def _url-base "https://www.formstack.com/api/v2/")
 
-(def client-id "13300")
+;; (def client-id "13300")
 (def headers {:headers {:Accept "application/json"
                         :Content-Type "application/json"
                         :Authorization (str "Bearer " *access-token*)}})

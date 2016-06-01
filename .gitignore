@@ -3,3 +3,4 @@
 /target/base+system+user+dev+dev/repl-port
 *.js
 *.cache.*
+/.global-env.edn
