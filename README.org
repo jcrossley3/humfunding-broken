@@ -1,0 +1,40 @@
+* ODH HumFunding
+Humanities faculty funding application, particularly an admin view
+
+- Connects to the ODH account's Formstack API to retrieve data on applicants
+- Uses Apache FOP to generate the ASB's desired form sheets 
+
+generated using Luminus version "2.9.10.44"
+
+** Prerequisites
+
+You will need [[https://github.com/technomancy/leiningen][Leiningen]] 2.0 or above installed.
+
+** Running
+
+To start a web server for the application, run:
+
+#+BEGIN_SRC 
+	lein run
+#+END_SRC
+
+Hot-coding (the way web dev was meant to be), where you don't need to hit your browser's refresh button, can then be started with:
+
+#+BEGIN_SRC 
+	lein figwheel
+#+END_SRC
+
+Finally, getting auto-compilation of your style sheets (so style changes are also instantly manifested) occurs with:
+
+#+BEGIN_SRC 
+	lein garden auto
+#+END_SRC
+
+** FUTURE WORK
+- [ ] Persistent Selector for dropdown
+- [ ] More than just leave requests
+- [ ] (far in the future) review of submissions by applicants
+
+** License
+
+Copyright © 2016 Brigham Young University, Office of Digital Humanities

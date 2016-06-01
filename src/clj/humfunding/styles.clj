@@ -31,6 +31,8 @@
 (def nav-color {:text (ycolors :blue9)
                 :hover (ycolors :blue7)})
 
+(def nav-height 100)
+
 ;;;;;;;;;;;;
 ;; STYLES ;;
 ;;;;;;;;;;;;
@@ -43,7 +45,8 @@
   {:background-image "none"
    :background-color (ycolors :blue)
    :background (gradient (ycolors :blue) (ycolors :blue5))
-   :color (ycolors :lightestblue)})
+   :color (ycolors :lightestblue)
+   :line-height (px nav-height)})
 
 (defn nav-hover-blue []
   (let [original (ycolor-obj :blue)]
@@ -63,7 +66,7 @@
   [:div.navbar :nav.navbar (nav-plain-blue)
    [:a.navbar-brand {:color (ycolors :blue10)
                      :margin "0 5%"}
-    [:img {:height "100px"}]
+    [:img {:height (px nav-height)}]
     [:&:hover {:color "inherit"}]]
    [:ul.nav.navbar-nav [:li.nav-item
                         [:.nav-link {:color (nav-color :text)
@@ -71,8 +74,7 @@
                         [:a.nav-link:hover {:color (nav-color :hover)}]
                         [:.username {:display "inline-block"
                                      :padding-left "0.5em"
-                                     :color (ycolors :lightestblue)}]
-                        ]]]
+                                     :color (ycolors :lightestblue)}]]]]
   [:.navbar-inverse [:.navbar-nav [:> [:.active [:> [:a (nav-plain-blue)]]]]]]
   [:.navbar-inverse [:.navbar-nav [:> [:.active [:> [:a:hover (nav-hover-blue)]]]]]]
   [:.jumbotron {:background-color (ycolors :blue)

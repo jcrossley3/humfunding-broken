@@ -20,33 +20,33 @@ humfunding.core.page = (function humfunding$core$page(){
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [humfunding.core.pages.call(null,reagent.session.get.call(null,new cljs.core.Keyword(null,"page","page",849072397)))], null);
 });
 secretary.core.set_config_BANG_.call(null,new cljs.core.Keyword(null,"prefix","prefix",-265908465),"#");
-var action__31163__auto___32638 = (function (params__31164__auto__){
+var action__31163__auto___32767 = (function (params__31164__auto__){
 if(cljs.core.map_QMARK_.call(null,params__31164__auto__)){
-var map__32634 = params__31164__auto__;
-var map__32634__$1 = ((((!((map__32634 == null)))?((((map__32634.cljs$lang$protocol_mask$partition0$ & (64))) || (map__32634.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__32634):map__32634);
+var map__32763 = params__31164__auto__;
+var map__32763__$1 = ((((!((map__32763 == null)))?((((map__32763.cljs$lang$protocol_mask$partition0$ & (64))) || (map__32763.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__32763):map__32763);
 return reagent.session.put_BANG_.call(null,new cljs.core.Keyword(null,"page","page",849072397),new cljs.core.Keyword(null,"home","home",-74557309));
 } else {
 if(cljs.core.vector_QMARK_.call(null,params__31164__auto__)){
-var vec__32636 = params__31164__auto__;
+var vec__32765 = params__31164__auto__;
 return reagent.session.put_BANG_.call(null,new cljs.core.Keyword(null,"page","page",849072397),new cljs.core.Keyword(null,"home","home",-74557309));
 } else {
 return null;
 }
 }
 });
-secretary.core.add_route_BANG_.call(null,"/",action__31163__auto___32638);
+secretary.core.add_route_BANG_.call(null,"/",action__31163__auto___32767);
 
-humfunding.core.home_route = ((function (action__31163__auto___32638){
+humfunding.core.home_route = ((function (action__31163__auto___32767){
 return (function humfunding$core$home_route(var_args){
 var args__30527__auto__ = [];
-var len__30520__auto___32639 = arguments.length;
-var i__30521__auto___32640 = (0);
+var len__30520__auto___32768 = arguments.length;
+var i__30521__auto___32769 = (0);
 while(true){
-if((i__30521__auto___32640 < len__30520__auto___32639)){
-args__30527__auto__.push((arguments[i__30521__auto___32640]));
+if((i__30521__auto___32769 < len__30520__auto___32768)){
+args__30527__auto__.push((arguments[i__30521__auto___32769]));
 
-var G__32641 = (i__30521__auto___32640 + (1));
-i__30521__auto___32640 = G__32641;
+var G__32770 = (i__30521__auto___32769 + (1));
+i__30521__auto___32769 = G__32770;
 continue;
 } else {
 }
@@ -55,27 +55,27 @@ break;
 
 var argseq__30528__auto__ = ((((0) < args__30527__auto__.length))?(new cljs.core.IndexedSeq(args__30527__auto__.slice((0)),(0),null)):null);
 return humfunding.core.home_route.cljs$core$IFn$_invoke$arity$variadic(argseq__30528__auto__);
-});})(action__31163__auto___32638))
+});})(action__31163__auto___32767))
 ;
 
-humfunding.core.home_route.cljs$core$IFn$_invoke$arity$variadic = ((function (action__31163__auto___32638){
+humfunding.core.home_route.cljs$core$IFn$_invoke$arity$variadic = ((function (action__31163__auto___32767){
 return (function (args__31162__auto__){
 return cljs.core.apply.call(null,secretary.core.render_route_STAR_,"/",args__31162__auto__);
-});})(action__31163__auto___32638))
+});})(action__31163__auto___32767))
 ;
 
 humfunding.core.home_route.cljs$lang$maxFixedArity = (0);
 
-humfunding.core.home_route.cljs$lang$applyTo = ((function (action__31163__auto___32638){
-return (function (seq32637){
-return humfunding.core.home_route.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq32637));
-});})(action__31163__auto___32638))
+humfunding.core.home_route.cljs$lang$applyTo = ((function (action__31163__auto___32767){
+return (function (seq32766){
+return humfunding.core.home_route.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq32766));
+});})(action__31163__auto___32767))
 ;
-var action__31163__auto___32646 = (function (params__31164__auto__){
+var action__31163__auto___32775 = (function (params__31164__auto__){
 if(cljs.core.map_QMARK_.call(null,params__31164__auto__)){
-var map__32642 = params__31164__auto__;
-var map__32642__$1 = ((((!((map__32642 == null)))?((((map__32642.cljs$lang$protocol_mask$partition0$ & (64))) || (map__32642.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__32642):map__32642);
-var category = cljs.core.get.call(null,map__32642__$1,new cljs.core.Keyword(null,"category","category",-593092832));
+var map__32771 = params__31164__auto__;
+var map__32771__$1 = ((((!((map__32771 == null)))?((((map__32771.cljs$lang$protocol_mask$partition0$ & (64))) || (map__32771.cljs$core$ISeq$))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__32771):map__32771);
+var category = cljs.core.get.call(null,map__32771__$1,new cljs.core.Keyword(null,"category","category",-593092832));
 reagent.session.put_BANG_.call(null,new cljs.core.Keyword(null,"category","category",-593092832),category);
 
 humfunding.leave.get_requests.call(null,category,new cljs.core.Keyword(null,"init","init",-1875481434));
@@ -83,8 +83,8 @@ humfunding.leave.get_requests.call(null,category,new cljs.core.Keyword(null,"ini
 return reagent.session.put_BANG_.call(null,new cljs.core.Keyword(null,"page","page",849072397),new cljs.core.Keyword(null,"leave","leave",1022579443));
 } else {
 if(cljs.core.vector_QMARK_.call(null,params__31164__auto__)){
-var vec__32644 = params__31164__auto__;
-var category = cljs.core.nth.call(null,vec__32644,(0),null);
+var vec__32773 = params__31164__auto__;
+var category = cljs.core.nth.call(null,vec__32773,(0),null);
 reagent.session.put_BANG_.call(null,new cljs.core.Keyword(null,"category","category",-593092832),category);
 
 humfunding.leave.get_requests.call(null,category,new cljs.core.Keyword(null,"init","init",-1875481434));
@@ -95,19 +95,19 @@ return null;
 }
 }
 });
-secretary.core.add_route_BANG_.call(null,"/leave/:category",action__31163__auto___32646);
+secretary.core.add_route_BANG_.call(null,"/leave/:category",action__31163__auto___32775);
 
-humfunding.core.leave_route = ((function (action__31163__auto___32646){
+humfunding.core.leave_route = ((function (action__31163__auto___32775){
 return (function humfunding$core$leave_route(var_args){
 var args__30527__auto__ = [];
-var len__30520__auto___32647 = arguments.length;
-var i__30521__auto___32648 = (0);
+var len__30520__auto___32776 = arguments.length;
+var i__30521__auto___32777 = (0);
 while(true){
-if((i__30521__auto___32648 < len__30520__auto___32647)){
-args__30527__auto__.push((arguments[i__30521__auto___32648]));
+if((i__30521__auto___32777 < len__30520__auto___32776)){
+args__30527__auto__.push((arguments[i__30521__auto___32777]));
 
-var G__32649 = (i__30521__auto___32648 + (1));
-i__30521__auto___32648 = G__32649;
+var G__32778 = (i__30521__auto___32777 + (1));
+i__30521__auto___32777 = G__32778;
 continue;
 } else {
 }
@@ -116,33 +116,33 @@ break;
 
 var argseq__30528__auto__ = ((((0) < args__30527__auto__.length))?(new cljs.core.IndexedSeq(args__30527__auto__.slice((0)),(0),null)):null);
 return humfunding.core.leave_route.cljs$core$IFn$_invoke$arity$variadic(argseq__30528__auto__);
-});})(action__31163__auto___32646))
+});})(action__31163__auto___32775))
 ;
 
-humfunding.core.leave_route.cljs$core$IFn$_invoke$arity$variadic = ((function (action__31163__auto___32646){
+humfunding.core.leave_route.cljs$core$IFn$_invoke$arity$variadic = ((function (action__31163__auto___32775){
 return (function (args__31162__auto__){
 return cljs.core.apply.call(null,secretary.core.render_route_STAR_,"/leave/:category",args__31162__auto__);
-});})(action__31163__auto___32646))
+});})(action__31163__auto___32775))
 ;
 
 humfunding.core.leave_route.cljs$lang$maxFixedArity = (0);
 
-humfunding.core.leave_route.cljs$lang$applyTo = ((function (action__31163__auto___32646){
-return (function (seq32645){
-return humfunding.core.leave_route.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq32645));
-});})(action__31163__auto___32646))
+humfunding.core.leave_route.cljs$lang$applyTo = ((function (action__31163__auto___32775){
+return (function (seq32774){
+return humfunding.core.leave_route.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq32774));
+});})(action__31163__auto___32775))
 ;
 humfunding.core.hook_browser_navigation_BANG_ = (function humfunding$core$hook_browser_navigation_BANG_(){
-var G__32651 = (new goog.History());
-goog.events.listen(G__32651,goog.history.EventType.NAVIGATE,((function (G__32651){
+var G__32780 = (new goog.History());
+goog.events.listen(G__32780,goog.history.EventType.NAVIGATE,((function (G__32780){
 return (function (event){
 return secretary.core.dispatch_BANG_.call(null,event.token);
-});})(G__32651))
+});})(G__32780))
 );
 
-G__32651.setEnabled(true);
+G__32780.setEnabled(true);
 
-return G__32651;
+return G__32780;
 });
 humfunding.core.mount_components = (function humfunding$core$mount_components(){
 reagent.core.render.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Var(function(){return humfunding.shared.navbar;},new cljs.core.Symbol("humfunding.shared","navbar","humfunding.shared/navbar",1539371998,null),cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null,"ns","ns",441598760),new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword(null,"file","file",-1269645878),new cljs.core.Keyword(null,"end-column","end-column",1425389514),new cljs.core.Keyword(null,"column","column",2078222095),new cljs.core.Keyword(null,"line","line",212345235),new cljs.core.Keyword(null,"end-line","end-line",1837326455),new cljs.core.Keyword(null,"arglists","arglists",1661989754),new cljs.core.Keyword(null,"doc","doc",1913296891),new cljs.core.Keyword(null,"test","test",577538877)],[new cljs.core.Symbol(null,"humfunding.shared","humfunding.shared",324964042,null),new cljs.core.Symbol(null,"navbar","navbar",-1070039728,null),"src/cljs/humfunding/shared.cljs",13,1,17,17,cljs.core.list(cljs.core.PersistentVector.EMPTY),null,(cljs.core.truth_(humfunding.shared.navbar)?humfunding.shared.navbar.cljs$lang$test:null)]))], null),document.getElementById("navbar"));

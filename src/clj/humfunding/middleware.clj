@@ -10,7 +10,8 @@
             [immutant.web.middleware :refer [wrap-session]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [clj-cas-client.core :refer [cas]]
-            [humfunding.byucas :as byucas])
+            [humfunding.byucas :as byucas]
+            [humfunding.authentication :as auth])
   (:import [javax.servlet ServletContext]))
 
 (def CAS {:server #(str "https://cas.byu.edu/cas")
@@ -38,6 +39,15 @@
                 ;; instead
                 (:app-context env))]
       (handler request))))
+
+(defn wrap-wrong-user [handler]
+  (fn [req]
+    (let [username (:username req)]
+      (if-not (auth/validate username)
+        (error-page {:status 500
+                     :title "Authentication Error"
+                     :message (str "Sorry, " username ", You don't have permission for access. If you believe this is an error, please contact the BYU Office of Digital Humanities.")})
+        (handler req)))))
 
 (defn wrap-internal-error [handler]
   (fn [req]
@@ -69,6 +79,7 @@
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
       wrap-flash      
+      wrap-wrong-user ;; TODO
       wrap-cas
       (wrap-session {:cookie-attrs {:http-only true}})
       (wrap-defaults
@@ -77,4 +88,5 @@
             (dissoc :session)))
       wrap-webjars
       wrap-context
-      wrap-internal-error))
+      wrap-internal-error
+      ))

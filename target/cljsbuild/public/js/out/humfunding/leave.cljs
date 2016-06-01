@@ -28,7 +28,7 @@
   (let [option-map [ ; "url" "title"
                     ["" ""]
                     ["all" "All"]
-                    ["dean" "College"]
+                    ["dean" "Dean's Office"]
                     ["ane" "Asian & Near Eastern"]
                     ["cal" "Comparative Arts & Letters" ]
                     ["english" "English"]
@@ -96,7 +96,7 @@
       (into table-skeleton (for [r @requests] (generate-leave-row r))))
     (when (empty? @table-busy)
       [:div.no-requests
-       [:h3 "Sorry; there are no approved requests recorded for " @request-title "."]])))
+       [:h3 "Sorry; there are no approved leave requests recorded for " @request-title "."]])))
 
 (defn get-requests [category & [force-refresh]]
   (when force-refresh (reset! requests nil))

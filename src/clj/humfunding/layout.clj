@@ -62,15 +62,6 @@
      (cljs-includes))) ;; it makes a big difference to make sure the clojurescript is included last, so the DOM is rendered
    "text/html; charset=utf-8"))
 
-(defn hiccup-render-unknown-user        ;TODO n/a
-  "The user is not in the Database"
-  [username]
-  (content-type
-   (ok
-    (hp/html5
-     [:h1 (format "Sorry %s, you have not been authorized to use humfunding." username)]))
-   "text/html; charset=utf-8"))
-
 (defn error-page
   "error-details should be a map containing the following keys:
    :status - error status

@@ -9,6 +9,7 @@ div.navbar, nav.navbar {
   background-color: #002255;
   background: linear-gradient(#002255, #114477);
   color: #F9FCFE;
+  line-height: 100px;
 }
 
 div.navbar a.navbar-brand, nav.navbar a.navbar-brand {
@@ -44,6 +45,7 @@ div.navbar ul.nav.navbar-nav li.nav-item .username, nav.navbar ul.nav.navbar-nav
   background-color: #002255;
   background: linear-gradient(#002255, #114477);
   color: #F9FCFE;
+  line-height: 100px;
 }
 
 .navbar-inverse .navbar-nav > .active > a:hover {
@@ -51,6 +53,7 @@ div.navbar ul.nav.navbar-nav li.nav-item .username, nav.navbar ul.nav.navbar-nav
   background-color: #002255;
   background: linear-gradient(#002255, #114477);
   color: #F9FCFE;
+  line-height: 100px;
 }
 
 .jumbotron {
