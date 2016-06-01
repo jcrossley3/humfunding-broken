@@ -37,7 +37,7 @@
                     ["linguistics" "Linguistics & English Language"]
                     ["philosophy" "Philosophy"]
                     ["spanport" "Spanish & Portuguese"]]]
-    (into [:select#leave-selector {:on-change go-to-leave-page}]
+    (into [:select#leave-selector.form-control {:on-change go-to-leave-page}]
           (for [[k n] option-map] [:option {:value k} n]))))
 
 (defn download-script [element-id & refresh]
@@ -51,7 +51,8 @@
     [:span.pdf-links
      [:a {:on-click #(download-script submission-id)}
       label]
-     [:a {:on-click #(download-script submission-id :refresh)}
+     [:a {:on-click #(download-script submission-id :refresh)
+          :alt "Rebuild PDF"}
       [:i.fa.fa-refresh]]]))
 
 (defn generate-leave-row [r]
@@ -93,7 +94,9 @@
                            [:div.cell.pdf "Form"]]]
           ]
       (into table-skeleton (for [r @requests] (generate-leave-row r))))
-    (.log js/console "Requests is empty")))
+    (when (empty? @table-busy)
+      [:div.no-requests
+       [:h3 "Sorry; there are no approved requests recorded for " @request-title "."]])))
 
 (defn get-requests [category & [force-refresh]]
   (when force-refresh (reset! requests nil))
@@ -105,9 +108,9 @@
 
 (defn leave-page []
   [:div.container
-   [:div.jumbotron
-    [:h1 (str @request-title " Professional Leave Requests")]
-    [:p "Requests submitted at the college-level for professional leave."]]
+   [:div.jumbotron.centralize
+    [:h1.page-title "Professional Leave Requests"]
+    [:h2.organization @request-title]]
    [:div.row
     [:div.col-md-12.leave-requests
      (leave-request-dropdown)

@@ -18,18 +18,9 @@
    [:div.jumbotron
     [:h1 "BYU Humanities Funding Administration"]
     [:p "Welcome to the BYU Humanities College funding administration website. Here you can view the submissions for each category."]]
-   ;; [:div.row
-   ;;  [:div.col-md-12.funding-type
-   ;;   "Right now only College Submissions are available."
-   ;;   [:div.button-holder
-   ;;    [:a.btn.btn-inactive {:href "#"} "College Research Requests"]]
-   ;;   [:div.button-holder
-   ;;    [:a.btn.btn-inactive {:href "#"} "College Travel Requests"]]
-   ;;   [:div.button-holder
-   ;;    [:a.btn.btn-primary {:href "#/leave/dean"} "College Leave Requests"]]
-   ;;   ]]
    [:div.row.requests.leave-requests
     [:h3 "Leave Requests"]
+    [:p "Select the Leave Requests you would like to browse"]
     (leave/leave-request-dropdown)
     ]
    ])

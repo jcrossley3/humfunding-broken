@@ -33,11 +33,11 @@
 (defmethod leave-requests-raw String [one-form-name]
   (_leave-request-raw one-form-name))
 
-(defn home-page []
-  (layout/hiccup-render-cljs-base))
+(defn home-page [request]
+  (layout/hiccup-render-cljs-base request))
 
 (defroutes home-routes
-  (GET "/" [] (home-page))
+  (GET "/" req (home-page (:username req)))
   (GET "/pdf/:sub-id" {{sub-id :sub-id
                         refresh :refresh} :params}
        (do
@@ -47,7 +47,7 @@
              (response/header "Content-Disposition" (str "attachment; filename=\"" (str sub-id ".pdf") "\""))
              (response/content-type "application/pdf")
              ))) ;; TODO invalid subids, and what format can be served
-  (POST "/leave/all" [category] (response/ok (leave-requests-raw ancillary/all-depts)))
+  (POST "/leave/all" [] (response/ok (leave-requests-raw ancillary/all-depts)))
   (POST "/leave/:category" [category] (response/ok (leave-requests-raw category)))
   (GET "/docs" [] (response/ok (-> "docs/docs.md" io/resource slurp))))
 

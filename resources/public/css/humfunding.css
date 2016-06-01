@@ -11,6 +11,34 @@ div.navbar, nav.navbar {
   color: #F9FCFE;
 }
 
+div.navbar a.navbar-brand, nav.navbar a.navbar-brand {
+  color: #D1E4F6;
+  margin: 0 5%;
+}
+
+div.navbar a.navbar-brand img, nav.navbar a.navbar-brand img {
+  height: 100px;
+}
+
+div.navbar a.navbar-brand:hover, nav.navbar a.navbar-brand:hover {
+  color: inherit;
+}
+
+div.navbar ul.nav.navbar-nav li.nav-item .nav-link, nav.navbar ul.nav.navbar-nav li.nav-item .nav-link {
+  color: #ABC8E4;
+  display: inline-block;
+}
+
+div.navbar ul.nav.navbar-nav li.nav-item a.nav-link:hover, nav.navbar ul.nav.navbar-nav li.nav-item a.nav-link:hover {
+  color: #628CB6;
+}
+
+div.navbar ul.nav.navbar-nav li.nav-item .username, nav.navbar ul.nav.navbar-nav li.nav-item .username {
+  display: inline-block;
+  padding-left: 0.5em;
+  color: #F9FCFE;
+}
+
 .navbar-inverse .navbar-nav > .active > a {
   background-image: none;
   background-color: #002255;
@@ -51,7 +79,7 @@ div.table {
   margin: 10px;
 }
 
-div.table :nth-child(even) {
+div.table > :nth-child(even) {
   background-color: #D1E4F6;
 }
 
@@ -72,6 +100,13 @@ div.table div.cell {
 
 div.table a {
   cursor: pointer;
+  padding: 0 5px;
+}
+
+h2.organization {
+  font-style: italic;
+  text-decoration: underline;
+  font-weight: 700;
 }
 
 #floatingCirclesG {

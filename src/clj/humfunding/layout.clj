@@ -20,8 +20,9 @@
   [:input {:id "token" :value *anti-forgery-token* :type "hidden"}
    (javascript-tag (str  "var csrfToken = '" *anti-forgery-token* "'"))])
 
-(defn boiler-header []
-  [:head [:title "BYU Humanities Faculty Funding"]])
+(defn boiler-header [& [username]]
+  [:head [:title "BYU Humanities Faculty Funding"]
+   (javascript-tag (str "var USERNAME = '" username "'"))])
 
 (defn cljs-app-base []
   [:div#app
@@ -50,11 +51,11 @@
 
 (defn hiccup-render-cljs-base
   "Hiccup rendering (no traditional template)"
-  [& [params]]
+  [& [username]]
   (content-type
    (ok
     (hp/html5
-     (boiler-header)
+     (boiler-header username)
      (boiler-plate)
      (anti-forgery-element)
      (cljs-app-base)
@@ -94,7 +95,7 @@
   (content-type
    (ok
     (hp/html5
-     (boiler-header)
+     (boiler-header params)
      (boiler-plate)
      (anti-forgery-element)
      (cljs-app-base)

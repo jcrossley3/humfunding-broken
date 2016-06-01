@@ -28,10 +28,8 @@
    :lightestblue "#F9FCFE"
    :midblue "#628CB6"})
 (def ycolor-obj (into {} (for [[k v] ycolors] {k (hex->hsl v)}))) ;; Object version of ycolors
-;; (def yretrieve-hex [key]
-;;   "Get the hex number from the ycolor-obj"
-;;   (hsl->hex (key ycolor-obj)))
-
+(def nav-color {:text (ycolors :blue9)
+                :hover (ycolors :blue7)})
 
 ;;;;;;;;;;;;
 ;; STYLES ;;
@@ -62,7 +60,19 @@
    {:background-color (ycolors :lightestblue)
     :font-size (px 16)
     :line-height 1.5}]
-  [:div.navbar :nav.navbar (nav-plain-blue)]
+  [:div.navbar :nav.navbar (nav-plain-blue)
+   [:a.navbar-brand {:color (ycolors :blue10)
+                     :margin "0 5%"}
+    [:img {:height "100px"}]
+    [:&:hover {:color "inherit"}]]
+   [:ul.nav.navbar-nav [:li.nav-item
+                        [:.nav-link {:color (nav-color :text)
+                                     :display "inline-block"}]
+                        [:a.nav-link:hover {:color (nav-color :hover)}]
+                        [:.username {:display "inline-block"
+                                     :padding-left "0.5em"
+                                     :color (ycolors :lightestblue)}]
+                        ]]]
   [:.navbar-inverse [:.navbar-nav [:> [:.active [:> [:a (nav-plain-blue)]]]]]]
   [:.navbar-inverse [:.navbar-nav [:> [:.active [:> [:a:hover (nav-hover-blue)]]]]]]
   [:.jumbotron {:background-color (ycolors :blue)
@@ -76,14 +86,22 @@
             :margin "0.5em auto"}]]
   [:div.table {:display "table"
                :margin (px 10)}
-   [(nth-child :even) {:background-color (ycolors :blue10)}] ;; TODO
+   [:> [(nth-child :even) {:background-color (ycolors :blue10)}]]
    [:div.row {:display "table-row"}]
    [:div.headers {:font-weight "bold"
                   :text-decoration "underline"}]
    [:div.cell {:display "table-cell"
                :padding (px 10)
                :width "19%"}]
-   [:a {:cursor "pointer"}]]
+   [:a {:cursor "pointer"
+        :padding "0 5px"}]]
+
+  ;; Jumbotron styles
+  [:h2.organization {:font-style "italic"
+                     :text-decoration "underline"
+                     ;:color (ycolors :blue10)
+                     :font-weight 700}]
+
   ;; Circles for busy
   ;; http://cssload.net/en/spinners
   [:#floatingCirclesG {:position "relative"
