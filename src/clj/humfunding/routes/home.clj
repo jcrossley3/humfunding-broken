@@ -6,14 +6,6 @@
             [humfunding.formstack :as fs]
             [humfunding.ancillary :as ancillary]))
 
-(defn leave-requests [category]
-  (let [form-id (-> category fs/get-forms-by-category first (get "id"))
-        sub-ids (map #(get % "id")
-                     (-> (fs/get-submissions form-id) (get "submissions")))
-        requests (into [] (for [si sub-ids]
-                            (-> si fs/get-submission-vals fs/make-submission-valmap)))]
-    (layout/render :dean-requests requests)))
-
 (defn _leave-request-raw 
   "Get the raw datastructures of APPROVED requests"
   [category]
@@ -46,7 +38,6 @@
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  ;; (GET "/leave/dean" [] (leave-requests #"dean_leave"))
   (GET "/pdf/:sub-id" {{sub-id :sub-id
                         refresh :refresh} :params}
        (do

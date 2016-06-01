@@ -17,9 +17,7 @@
           :service #(str "http://localhost:3000")})
 
 (defn wrap-cas [handler]
-  (byucas/cas handler (:server CAS) (:service CAS)
-   ;cas handler (:server CAS) (:service CAS)
-   ))
+  (byucas/cas handler (:server CAS) (:service CAS)))
 
 (defn print-handler [handler]
   (fn [request]
@@ -48,8 +46,8 @@
       (catch Throwable t
         (log/error t)
         (error-page {:status 500
-                     :title "Something very bad has happened!"
-                     :message "We've dispatched a team of highly trained gnomes to take care of the problem."})))))
+                     :title "Internal Error"
+                     :message "If you continue receiving this error, please contact tory_anderson@byu.edu"})))))
 
 (defn wrap-csrf [handler]
   (wrap-anti-forgery
@@ -71,7 +69,7 @@
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
       wrap-flash      
-      ;wrap-cas
+      wrap-cas
       (wrap-session {:cookie-attrs {:http-only true}})
       (wrap-defaults
         (-> site-defaults
