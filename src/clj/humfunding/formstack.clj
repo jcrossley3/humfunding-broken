@@ -11,14 +11,10 @@
             [humfunding.config :refer [env]])
   (:import [java.io StringReader]))
 
-;; (def ^:dynamic *oauth1* "f3b5ec559ff83e6de0ef7812d7c1b5f9") ;; expires regularly
-;; (def ^:dynamic *access-token* "74641c25860f55dc930c9ba036e08bdb") ;; oauth2, almost stable
 (def _url-base "https://www.formstack.com/api/v2/")
-
-;; (def client-id "13300")
 (def headers {:headers {:Accept "application/json"
                         :Content-Type "application/json"
-                        :Authorization (str "Bearer " *access-token*)}})
+                        :Authorization (str "Bearer " (-> env :access-token))}})
 (def formstack-time-long (f/formatter "yyyy-MM-dd HH:mm:ss"))
 (def formstack-time-short (f/formatter "MMM yyyy"))
 
@@ -38,20 +34,17 @@
 (defn get-token ;; XXX doesn't work yet with the oauth2 system; bypass with hardcoded token
   "Get the *oauth2* token"
   [& {:keys [client-id redirect-uri authcode client-secret]
-      :or {client-id "13300"
-           redirect-uri "toryanderson.com"
-           client-secret "42ae7ef62a"
-           authcode *access-token*}}]
+      :or {authcode (-> env :access-token)}}]
   (let [token-url (str _url-base "oauth2/token")
         rmap     (client/post token-url {:form-params {:client_id client-id
-                                                       :redirect_uri "toryanderson.com"
+                                                       :redirect_uri (-> env :site-url)
                                                        :client_secret client-secret
                                                        :code authcode
                                                        :grant_type "authorization_code"}})]
     (-> rmap :body json/parse-string (get "access_token"))))
 
 (defn get-forms []
-  (let [form-request-url (str  _url-base "form.json?oauth_token=" *access-token*)
+  (let [form-request-url (str  _url-base "form.json?oauth_token=" (-> env :access-token))
         response (client/get form-request-url)]
     (-> response :body json/parse-string (get "forms"))))
 
