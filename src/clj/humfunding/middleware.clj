@@ -15,7 +15,9 @@
   (:import [javax.servlet ServletContext]))
 
 (def CAS {:server #(str "https://cas.byu.edu/cas")
-          :service #(str (-> env :site-url))})
+          :service #(str (-> env :site-url))
+                                        ;          :service #(str "http://localhost:3000")
+          })
 
 (defn wrap-cas [handler]
   (byucas/cas handler (:server CAS) (:service CAS)))
@@ -79,7 +81,7 @@
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
       wrap-flash      
-      wrap-wrong-user ;; TODO
+      wrap-wrong-user
       wrap-cas
       (wrap-session {:cookie-attrs {:http-only true}})
       (wrap-defaults

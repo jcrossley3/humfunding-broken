@@ -1,3 +1,5 @@
 {:production true
  :port 3000
- :site-url "http://humpre.byu.edu/humfunding"}
+ :site-url "http://localhost:3000" ; TODO
+ ;:site-url "http://humpre.byu.edu/humfunding"
+ }

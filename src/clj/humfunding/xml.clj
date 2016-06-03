@@ -1,9 +1,16 @@
 (ns humfunding.xml
-  (require [hiccup.core :as hc]
-           [net.cgrand.enlive-html :as en]))
+  (:require [clojure.java.io :as io]
+            [hiccup.core :as hc]
+            [net.cgrand.enlive-html :as en]))
 
 (def _dean-respondent "Scott Miller")
-(def leave-xml (clojure.java.io/file "resources/leave_template.xml"))
+;; (def leave-xml (-> "leave_template.xml"
+;;                    io/resource
+;;                    io/file))
+(def leave-xml (-> "leave_template.xml"
+                   io/resource
+                   io/input-stream)) ;; Tryign input-stream instead of file to dodge jar path problems
+
 (en/deftemplate leave-template leave-xml [& [{:keys [request-date
                                                      netid
                                                      byuid
@@ -65,10 +72,10 @@
                                                    leave-last-leave-end ""
                                                    leave-last-leave-type ""
                                                    chair-status "yes"
-                                                   chair-response-date "2016-04-18" ; "" ;; TODO
+                                                   chair-response-date "" ;; TODO
                                                    chair-response-content ""
                                                    dean-status "yes"
-                                                   dean-response-date "2016-05-25" ;"" ;; TODO not available from Formstack API?
+                                                   dean-response-date "" ;; TODO not available from Formstack API?
                                                    dean-respondent _dean-respondent ;; TODO not available from Formstack API?
                                                    dean-response-content "" ;; TODO not available from Formstack API?
                                                    budget-requested "$0.00"
@@ -120,7 +127,7 @@
                                                   "responseDate" chair-response-date
                                                   "resp" chair-name)
   [:fundingRequest :approval :chairResponse] (en/content chair-response-content)
-  [:fundingRequest :budget :requestedBudget] (en/set-attr "total" budget-requested) ;; TODO
+  [:fundingRequest :budget :requestedBudget] (en/set-attr "total" budget-requested) 
   [:fundingRequest :budget :requestedBudget :supplies] (en/set-attr "amt" budget-supplies-amt)
   [:fundingRequest :budget :requestedBudget :supplies] (en/content budget-supplies-content)
   [:fundingRequest :budget :requestedBudget :travel] (en/set-attr "amt" budget-travel-amt)

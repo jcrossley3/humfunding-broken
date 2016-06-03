@@ -1,6 +1,6 @@
 *.log
 *.log.*
-/target/base+system+user+dev+dev/repl-port
+/target*
 *.js
 *.cache.*
 /.global-env.edn

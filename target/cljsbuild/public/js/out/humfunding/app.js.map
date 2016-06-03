@@ -1,1 +1,0 @@
-{"version":3,"file":"\/home\/torysa\/Workspace\/humfunding\/target\/cljsbuild\/public\/js\/out\/humfunding\/app.js","sources":["dev.cljs"],"lineCount":10,"mappings":";AAAA;;;;AAIA,AAACA;AAED,2CAAA,uEAAA,kCAAA,pJAACC,mNAEYC;AAEb,AAACC","names":["cljs.core\/enable-console-print!","figwheel.client\/watch-and-reload","humfunding.core\/mount-components","humfunding.core\/init!"]}

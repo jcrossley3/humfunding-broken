@@ -42,7 +42,7 @@
                         refresh :refresh} :params}
        (do
          (println ">>>>>>>>>>>>>>> Refresh is: " refresh "\n>>>>>>> and subid is " sub-id)
-         (-> (fs/serve-pdf sub-id)
+         (-> (fs/serve-pdf sub-id refresh)
              response/ok
              (response/header "Content-Disposition" (str "attachment; filename=\"" (str sub-id ".pdf") "\""))
              (response/content-type "application/pdf")

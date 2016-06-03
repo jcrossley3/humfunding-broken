@@ -12,9 +12,15 @@
   (:import [java.io StringReader]))
 
 (def _url-base "https://www.formstack.com/api/v2/")
-(def headers {:headers {:Accept "application/json"
+(defn headers []
+  {:headers {:Accept "application/json"
                         :Content-Type "application/json"
                         :Authorization (str "Bearer " (-> env :access-token))}})
+;; (def headers {:headers {:Accept "application/json"
+;;                         :Content-Type "application/json"
+;;                         :Authorization (str "Bearer " (-> env :access-token))}}) 
+;TODO this isn't loading at run time
+(println "authorization is: " (-> (headers) :headers :Authorization))
 (def formstack-time-long (f/formatter "yyyy-MM-dd HH:mm:ss"))
 (def formstack-time-short (f/formatter "MMM yyyy"))
 
@@ -31,20 +37,20 @@
            (f/unparse output-format))
       "")))
 
-(defn get-token ;; XXX doesn't work yet with the oauth2 system; bypass with hardcoded token
-  "Get the *oauth2* token"
-  [& {:keys [client-id redirect-uri authcode client-secret]
-      :or {authcode (-> env :access-token)}}]
-  (let [token-url (str _url-base "oauth2/token")
-        rmap     (client/post token-url {:form-params {:client_id client-id
-                                                       :redirect_uri (-> env :site-url)
-                                                       :client_secret client-secret
-                                                       :code authcode
-                                                       :grant_type "authorization_code"}})]
-    (-> rmap :body json/parse-string (get "access_token"))))
+;; (defn get-token ;; XXX doesn't work yet with the oauth2 system; bypass with hardcoded token
+;;   "Get the *oauth2* token"
+;;   [& {:keys [client-id redirect-uri authcode client-secret]
+;;       :or {authcode (-> env :access-token)}}]
+;;   (let [token-url (str _url-base "oauth2/token")
+;;         rmap     (client/post token-url {:form-params {:client_id client-id
+;;                                                        :redirect_uri (-> env :site-url)
+;;                                                        :client_secret client-secret
+;;                                                        :code authcode
+;;                                                        :grant_type "authorization_code"}})]
+;;     (-> rmap :body json/parse-string (get "access_token"))))
 
 (defn get-forms []
-  (let [form-request-url (str  _url-base "form.json?oauth_token=" (-> env :access-token))
+  (let [form-request-url (str  _url-base "form.json?oauth_token=" (-> env :access-token)) ;; XX breaks because the env call comes back blank at compile time
         response (client/get form-request-url)]
     (-> response :body json/parse-string (get "forms"))))
 
@@ -72,7 +78,7 @@
                  "linguistics" #"linguistics_"
                  "philosophy" #"philosophy_"
                  "spanish" #"spanport_"
-                 "portuguese" #"spanport_"}
+ "portuguese" #"spanport_"}
         regexp (get cat-map form-category)]
     (_form-matches-category? form regexp)))
 
@@ -82,17 +88,17 @@
 
 (defn get-form [form-id]
   (let [url (str _url-base "form/" form-id ".json")
-        response (client/get url headers)]
+        response (client/get url (headers))]
     (-> response :body json/parse-string)))
 
 (defn get-submissions [form-id]
   (let [url (str _url-base "form/" form-id "/submission.json")
-        response (client/get url headers)]
+        response (client/get url (headers))]
     (-> response :body json/parse-string)))
 
 (defn get-submission [submission-id]
   (let [url (str _url-base "submission/" submission-id ".json")
-        response (client/get url headers)]
+        response (client/get url (headers))]
     (-> response :body json/parse-string)))
 
 (defn field-map
@@ -162,7 +168,7 @@
 (defn serve-pdf
   "Check whether pdf-id.pdf exists already;
   If not, create. Then, return it. "
-  [submission-id & force]
+  [submission-id & [force]]
   (let [pdf-name (str submission-id ".pdf")
         out-dir (-> "leave" io/resource io/file) ;; TODO create this if not exists
         pdf-file (-> (str (.getPath out-dir) (java.io.File/separator) pdf-name)

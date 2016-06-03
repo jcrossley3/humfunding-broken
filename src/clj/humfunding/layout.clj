@@ -93,31 +93,6 @@
      (cljs-includes)))
    "text/html; charset=utf-8"))
 
-(defn generate-leave-row [r]
-  [:div.row
-   [:div.cell.date (r :request-date)]
-   [:div.cell.name (str (r :surname) ", " (r :given-name))]
-   [:div.cell.title (r :project-title)]
-   [:div.cell.leave-date (r :project-start-date)]
-   [:div.cell.pdf "PDF TODO"]])
-
-(defn requests-page
-  "Generate the page of requests"
-  [requests]
-  ;; TODO generate any shared header
-  ;; Generate the table of requests with info and links to pdf, etc
-  (let [requests-table [:div.table
-                        [:div.row.headers
-                         [:div.cell.date "Submission Date"]
-                         [:div.cell.name "Applicant"]
-                         [:div.cell.title "Project Title"]
-                         [:div.cell.title "Project Start"]
-                         [:div.cell.file "Fi"]]
-                        (for [r requests]
-                          (generate-leave-row r))]]
-    [:div.content
-     requests-table]))
-
 (defn render-boilerplate []
   [:head [:title "BYU Humanities Funding"]
    ;;(hp/include-css "assets/style.css")
@@ -128,19 +103,19 @@
   ;; [:script {:type "text/javascript"} "goog.require('turbo_tenure.app')"]
   )
 
-(def pages
-  {:dean-requests requests-page})
+;; (def pages
+;;   {:dean-requests requests-page})
 
-(defn render
-  "Create boilerplate and then insert the content for the keyed page"
-  [page-key & [args]]
-  (let [page-fn (page-key pages)]
-    (content-type
-     (ok
-      (hp/html5
-       (render-boilerplate)
-       ;; main page content
-       (page-fn args)
-       ;; insert styles, scripts, etc
-       (render-sediment)))
-     "text/html; charset=utf-8")))
+;; (defn render
+;;   "Create boilerplate and then insert the content for the keyed page"
+;;   [page-key & [args]]
+;;   (let [page-fn (page-key pages)]
+;;     (content-type
+;;      (ok
+;;       (hp/html5
+;;        (render-boilerplate)
+;;        ;; main page content
+;;        (page-fn args)
+;;        ;; insert styles, scripts, etc
+;;        (render-sediment)))
+;;      "text/html; charset=utf-8")))
