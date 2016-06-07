@@ -44,7 +44,7 @@
                  [org.apache.xmlgraphics/fop "2.1"]
                  [clj-time "0.8.0"]]
 
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.4.0"
 
   :jvm-opts ["-server"]
   :source-paths ["src/clj" "src/cljc"]
@@ -55,7 +55,7 @@
   :plugins [[lein-cprop "1.0.1"]
             [lein-cljsbuild "1.1.1"]
             [lein-garden "0.2.6"]
-            [lein-uberwar "0.2.0"]]
+            [lein-immutant "2.1.0"]]
   :aliases {"clean-run-war" ["do" "clean" ["cljsbuild" "once"] "uberwar"]}
   :uberwar {:handler humfunding.handler/app
             :init humfunding.handler/init

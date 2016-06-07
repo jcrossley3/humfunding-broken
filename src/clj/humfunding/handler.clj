@@ -46,6 +46,6 @@
         (error-page {:status 404
                      :title "page not found"})))))
 
-
+;; [0m[31m19:00:14,277 ERROR [io.undertow.request] (default task-1) UT005023: Exception handling request to /humfunding/: clojure.lang.ArityException: Wrong number of args (1) passed to: handler/app ;; from web context (Wildfly)
 (defn app [] (middleware/wrap-base #'app-routes))
 ;(def app (middleware/wrap-base #'app-routes))

@@ -1,7 +1,9 @@
 {:production true
  :port 3000 ;; prod?
- ;:site-url "http://localhost:8080/humfunding" ; TODO
- :site-url "http://humpre.byu.edu/humfunding"
+ ;:servlet-context "http://localhost:8080/humfunding/"
+ ;:site-url "http://localhost:3000" ; UBERJAR LOCAL
+ :site-url "http://localhost:8080/humfunding" ; UBERWAR LOCAL
+ ;:site-url "http://humpre.byu.edu/humfunding" ; UBERWAR REMOTE
  :database-url "mongodb://127.0.0.1/humfunding_dev" ;; DERELICT
  :access-token "74641c25860f55dc930c9ba036e08bdb"
  :client-id "13300"

@@ -13,8 +13,10 @@
 
 (declare ^:dynamic *app-context*)
 
-(def style-path "/css/")
-(def script-path "/js/")
+;; (def style-path "/css/")
+;; (def script-path "/js/")
+(def style-path "css/")
+(def script-path "js/")
 
 (defn anti-forgery-element []
   [:input {:id "token" :value *anti-forgery-token* :type "hidden"}
