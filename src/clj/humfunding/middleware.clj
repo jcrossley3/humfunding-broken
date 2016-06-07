@@ -32,7 +32,11 @@
                 ;; If we're not inside a servlet environment
                 ;; (for example when using mock requests), then
                 ;; .getContextPath might not exist
-                (try (.getContextPath ^ServletContext context)
+                (try (do
+                       (println "!!!!! Context is: " context)
+                       (println "!!!!! otherwise " (:app-context env))
+                       (println ">>>>> Trying to get: " (.getContextPath ^ServletContext context))
+                       (.getContextPath ^ServletContext context))
                      (catch IllegalArgumentException _ context))
                 ;; if the context is not specified in the request
                 ;; we check if one has been specified in the environment
@@ -79,14 +83,14 @@
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
       wrap-flash      
-      wrap-wrong-user
-      wrap-cas
+      ;; wrap-wrong-user
+      ;; wrap-cas
       (wrap-session {:cookie-attrs {:http-only true}})
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
             (dissoc :session)))
       wrap-webjars
-      wrap-context
+      ;wrap-context
       wrap-internal-error
       ))

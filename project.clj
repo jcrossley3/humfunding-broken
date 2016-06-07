@@ -21,6 +21,7 @@
                  [org.clojure/tools.cli "0.3.3"]
                  [luminus-nrepl "0.1.4"]
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
+                 ;[org.immutant/immutant "2.1.4"]
                  [luminus-immutant "0.2.0"]
                  [com.novemberain/monger "3.0.0-rc2"]
                  [org.clojure/clojurescript "1.8.40" :scope "provided"]
@@ -57,10 +58,11 @@
             [lein-garden "0.2.6"]
             [lein-immutant "2.1.0"]]
   :aliases {"clean-run-war" ["do" "clean" ["cljsbuild" "once"] "uberwar"]}
-  :uberwar {:handler humfunding.handler/app
-            :init humfunding.handler/init
-            :destroy humfunding.handler/destroy
-            :name "humfunding.war"}
+  :immutant {:war {:name "humfunding"
+                   :context-path "/humfunding/"
+                   :path "just-path"
+                   :main humfunding.core
+                   }}
 
   :garden {:builds [{:id "humfunding"
                      :source-paths ["src/styles"]

@@ -4,3 +4,4 @@
 *.js
 *.cache.*
 /.global-env.edn
+*config.edn*

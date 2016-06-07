@@ -12,11 +12,15 @@
 
 
 (declare ^:dynamic *app-context*)
+;; (def style-path (str *app-context* "css/"))
+;; (def script-path (str *app-context* "js/"))
+;; (def assets-path (str *app-context* "assets/"))
 
-;; (def style-path "/css/")
-;; (def script-path "/js/")
 (def style-path "css/")
 (def script-path "js/")
+(def assets-path "assets/")
+
+
 
 (defn anti-forgery-element []
   [:input {:id "token" :value *anti-forgery-token* :type "hidden"}
@@ -35,8 +39,8 @@
    [:input {:id "netid" :type "hidden" :value username}]
    [:div#navbar]
    ;; styles
-   (hp/include-css (str "assets/bootstrap/css/bootstrap.min.css"))
-   (hp/include-css (str "assets/font-awesome/css/font-awesome.min.css"))     
+   (hp/include-css (str assets-path "bootstrap/css/bootstrap.min.css"))
+   (hp/include-css (str assets-path "font-awesome/css/font-awesome.min.css"))     
                                         ;(hp/include-css (str "assets/bootstrap/css/bootstrap-theme.min.css"))
    (hp/include-css (str style-path "humfunding.css"))
    (hp/include-css (str style-path "screen.css"))])
@@ -44,12 +48,12 @@
 (defn cljs-includes []
   ;; script
   [:div
-   (hp/include-js (str script-path "out/goog/base.js"))
+   ;(hp/include-js (str script-path "out/goog/base.js"))
    (hp/include-js (str script-path "app.js")) ;; must precede the goog.require
-   (hp/include-js "assets/jquery/jquery.min.js")
+   (hp/include-js (str assets-path "jquery/jquery.min.js"))
    ;; (hp/include-js "assets/jquery-ui/jquery-ui.min.js")
-   (hp/include-js "assets/tether/dist/js/tether.min.js") ;; had to examine the structure of the webjar to find this path
-   (hp/include-js "assets/bootstrap/js/bootstrap.min.js")
+   (hp/include-js (str assets-path "tether/dist/js/tether.min.js")) ;; had to examine the structure of the webjar to find this path
+   (hp/include-js (str assets-path "bootstrap/js/bootstrap.min.js"))
    [:script {:type "text/javascript"} "goog.require('humfunding.app')"]])
 
 (defn hiccup-render-cljs-base
