@@ -4,6 +4,8 @@
             [reagent.session :as session]
             ))
 
+(def USERNAME (r/atom (-> (.getElementById js/document "netid") .-value)))
+
 (defn hum-link [target content]
   [:a.btn.btn-primary {:href target} content])
 
@@ -29,7 +31,7 @@
          [nav-link "#/" "Home" :home collapsed?]
          [:li.nav-item.registered
           [:span.nav-link {:href "http://cas.byu.edu/logout"} "Logged in as"]
-          [:span.username (.-USERNAME js/window)]]]]])))
+          [:span.username @USERNAME]]]]])))
 
 (defn make-list [type & items]
   (into [type] (for [i items] [:li i])))

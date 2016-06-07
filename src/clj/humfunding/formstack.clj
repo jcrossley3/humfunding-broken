@@ -15,12 +15,13 @@
 (defn headers []
   {:headers {:Accept "application/json"
                         :Content-Type "application/json"
-                        :Authorization (str "Bearer " (-> env :access-token))}})
+             :Authorization (str "Bearer " (-> env :access-token))}})
 ;; (def headers {:headers {:Accept "application/json"
 ;;                         :Content-Type "application/json"
 ;;                         :Authorization (str "Bearer " (-> env :access-token))}}) 
 ;TODO this isn't loading at run time
-(println "authorization is: " (-> (headers) :headers :Authorization))
+;; (println "Access token should be " (-> env :access-token))
+;; (println "authorization is: " (-> (headers) :headers :Authorization))
 (def formstack-time-long (f/formatter "yyyy-MM-dd HH:mm:ss"))
 (def formstack-time-short (f/formatter "MMM yyyy"))
 

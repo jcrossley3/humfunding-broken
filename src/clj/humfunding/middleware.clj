@@ -15,9 +15,7 @@
   (:import [javax.servlet ServletContext]))
 
 (def CAS {:server #(str "https://cas.byu.edu/cas")
-          :service #(str (-> env :site-url))
-                                        ;          :service #(str "http://localhost:3000")
-          })
+          :service #(str (-> env :site-url))})
 
 (defn wrap-cas [handler]
   (byucas/cas handler (:server CAS) (:service CAS)))

@@ -17,7 +17,7 @@
                  [ring-webjars "0.1.1"]
                  [ring/ring-defaults "0.2.0"]
                  [mount "0.1.10"]
-                 [cprop "0.1.7"]
+                 [cprop "0.1.8"]
                  [org.clojure/tools.cli "0.3.3"]
                  [luminus-nrepl "0.1.4"]
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
@@ -46,7 +46,7 @@
 
   :min-lein-version "2.0.0"
 
-  :jvm-opts ["-server" "-Dconf=.global-env.edn"]
+  :jvm-opts ["-server"]
   :source-paths ["src/clj" "src/cljc"]
   :resource-paths ["resources" "target/cljsbuild" "../output"]
 
@@ -54,7 +54,14 @@
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-cljsbuild "1.1.1"]
-            [lein-garden "0.2.6"]]
+            [lein-garden "0.2.6"]
+            [lein-uberwar "0.2.0"]]
+  :aliases {"clean-run-war" ["do" "clean" ["cljsbuild" "once"] "uberwar"]}
+  :uberwar {:handler humfunding.handler/app
+            :init humfunding.handler/init
+            :destroy humfunding.handler/destroy
+            :name "humfunding.war"}
+
   :garden {:builds [{:id "humfunding"
                      :source-paths ["src/styles"]
                      :stylesheet humfunding.styles/main
@@ -104,6 +111,7 @@
                                  [lein-doo "0.1.6"]
                                  [org.clojure/clojurescript "1.8.40"]]
                   
+                  :aliases {"clean-run" ["do" "clean" ["cljsbuild" "once"] "run"]}
                    :cljsbuild
                    {:builds
                     {:app

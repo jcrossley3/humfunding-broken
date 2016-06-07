@@ -33,8 +33,8 @@
 (defmethod leave-requests-raw String [one-form-name]
   (_leave-request-raw one-form-name))
 
-(defn home-page [request]
-  (layout/hiccup-render-cljs-base request))
+(defn home-page [username]
+  (layout/hiccup-render-cljs-base username))
 
 (defroutes home-routes
   (GET "/" req (home-page (:username req)))
